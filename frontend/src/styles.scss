@@ -1,0 +1,38 @@
+@use '@angular/material' as mat;
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #f5f5f5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 24px 0 16px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 16px;
+}
+
+.status-chip {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  &.open { background: #e8f5e9; color: #2e7d32; }
+  &.matched { background: #e3f2fd; color: #1565c0; }
+  &.in_transit { background: #fff3e0; color: #ef6c00; }
+  &.completed { background: #f3e5f5; color: #7b1fa2; }
+  &.cancelled { background: #fce4ec; color: #c62828; }
+}

@@ -1,0 +1,39 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/koormaturg}
+    username: ${SPRING_DATASOURCE_USERNAME:koormaturg}
+    password: ${SPRING_DATASOURCE_PASSWORD:koormaturg}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+jwt:
+  secret: ${JWT_SECRET:dev-secret-key-change-in-production-must-be-at-least-256-bits-long!!}
+  access-token-expiry: 900
+  refresh-token-expiry: 604800
+
+stripe:
+  secret-key: ${STRIPE_SECRET_KEY:sk_test_placeholder}
+  webhook-secret: ${STRIPE_WEBHOOK_SECRET:whsec_placeholder}
+  service-fee-cents: 1200
+
+resend:
+  api-key: ${RESEND_API_KEY:re_placeholder}
+  from: noreply@koormaturg.ee
+
+app:
+  upload-dir: ${APP_UPLOAD_DIR:./uploads}
+  upload-max-size-mb: 5
+  payment-deadline-hours: 24
+  listing-expiry-days: 30
