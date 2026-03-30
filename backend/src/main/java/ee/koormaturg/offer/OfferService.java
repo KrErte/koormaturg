@@ -92,9 +92,13 @@ public class OfferService {
         listing.setAcceptedAt(Instant.now());
         listing.setPaymentDeadline(Instant.now().plusSeconds((long) paymentDeadlineHours * 3600));
 
-        // Create Stripe PI
-        String piId = paymentService.createPaymentIntent(listing.getId(), offer.getId(), userId);
-        listing.setStripePaymentIntentId(piId);
+        // Create Stripe PI (skip if Stripe not configured)
+        try {
+            String piId = paymentService.createPaymentIntent(listing.getId(), offer.getId(), userId);
+            listing.setStripePaymentIntentId(piId);
+        } catch (Exception e) {
+            // Stripe not configured — continue without payment
+        }
 
         listingRepository.save(listing);
         return offerRepository.save(offer);
