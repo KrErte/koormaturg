@@ -2,50 +2,64 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [CommonModule, FormsModule, RouterLink, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
   template: `
-    <div class="container" style="max-width:400px;margin-top:60px">
-      <mat-card>
-        <mat-card-header><mat-card-title>Registreeru</mat-card-title></mat-card-header>
-        <mat-card-content>
-          @if (error) {
-            <p style="color:red;margin:8px 0">{{ error }}</p>
-          }
-          <mat-form-field style="width:100%">
-            <mat-label>Täisnimi</mat-label>
-            <input matInput [(ngModel)]="fullName">
-          </mat-form-field>
-          <mat-form-field style="width:100%">
-            <mat-label>Email</mat-label>
-            <input matInput [(ngModel)]="email" type="email">
-          </mat-form-field>
-          <mat-form-field style="width:100%">
-            <mat-label>Telefon</mat-label>
-            <input matInput [(ngModel)]="phone">
-          </mat-form-field>
-          <mat-form-field style="width:100%">
-            <mat-label>Parool</mat-label>
-            <input matInput [(ngModel)]="password" type="password">
-          </mat-form-field>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-raised-button color="primary" (click)="onRegister()" [disabled]="loading" style="width:100%">
-            {{ loading ? 'Laadin...' : 'Registreeru' }}
+    <div class="auth-wrapper">
+      <div class="auth-card">
+        <div style="text-align:center;margin-bottom:24px">
+          <mat-icon style="font-size:48px;width:48px;height:48px;color:var(--primary)">local_shipping</mat-icon>
+        </div>
+        <h1>Loo konto</h1>
+        <p class="subtitle">Alusta veose postitamist või vedajana tegutsemist</p>
+
+        @if (error) {
+          <div class="auth-error">{{ error }}</div>
+        }
+
+        <mat-form-field appearance="outline">
+          <mat-label>Täisnimi</mat-label>
+          <mat-icon matPrefix>person</mat-icon>
+          <input matInput [(ngModel)]="fullName" placeholder="Mati Maasikas">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <mat-icon matPrefix>email</mat-icon>
+          <input matInput [(ngModel)]="email" type="email" placeholder="mati@ettevote.ee">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Telefon</mat-label>
+          <mat-icon matPrefix>phone</mat-icon>
+          <input matInput [(ngModel)]="phone" placeholder="+372 5551 2345">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Parool</mat-label>
+          <mat-icon matPrefix>lock</mat-icon>
+          <input matInput [(ngModel)]="password" [type]="showPw ? 'text' : 'password'">
+          <button mat-icon-button matSuffix (click)="showPw = !showPw" type="button">
+            <mat-icon>{{ showPw ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          <p style="text-align:center;margin-top:16px">
-            Juba konto? <a routerLink="/login">Logi sisse</a>
-          </p>
-        </mat-card-actions>
-      </mat-card>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" class="auth-btn" (click)="onRegister()" [disabled]="loading">
+          {{ loading ? 'Registreerin...' : 'Registreeru' }}
+        </button>
+
+        <p class="auth-footer">
+          Juba konto? <a routerLink="/login">Logi sisse</a>
+        </p>
+      </div>
     </div>
   `,
 })
@@ -56,6 +70,7 @@ export class RegisterComponent {
   password = '';
   error = '';
   loading = false;
+  showPw = false;
 
   constructor(private auth: AuthService, private router: Router) {}
 

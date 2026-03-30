@@ -2,32 +2,33 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
 import { ApiService } from '../core/services/api.service';
 
 @Component({
   selector: 'app-marketplace',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatChipsModule],
+  imports: [CommonModule, FormsModule, RouterLink, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatIconModule],
   template: `
-    <div class="container">
+    <div class="container" style="padding-top:32px;padding-bottom:60px">
       <h1 class="page-title">Veoturg</h1>
 
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px">
-        <mat-form-field style="width:180px">
+      <div class="filter-bar">
+        <mat-form-field appearance="outline" style="width:200px">
           <mat-label>Lähtelinn</mat-label>
-          <input matInput [(ngModel)]="filters.pickup_city">
+          <mat-icon matPrefix>location_on</mat-icon>
+          <input matInput [(ngModel)]="filters.pickup_city" placeholder="nt. Tallinn">
         </mat-form-field>
-        <mat-form-field style="width:180px">
+        <mat-form-field appearance="outline" style="width:200px">
           <mat-label>Sihtlinn</mat-label>
-          <input matInput [(ngModel)]="filters.delivery_city">
+          <mat-icon matPrefix>flag</mat-icon>
+          <input matInput [(ngModel)]="filters.delivery_city" placeholder="nt. Riia">
         </mat-form-field>
-        <mat-form-field style="width:180px">
+        <mat-form-field appearance="outline" style="width:200px">
           <mat-label>Sõiduki tüüp</mat-label>
           <mat-select [(ngModel)]="filters.vehicle_type">
             <mat-option value="">Kõik</mat-option>
@@ -38,29 +39,53 @@ import { ApiService } from '../core/services/api.service';
             <mat-option value="TANKER">Tsistern</mat-option>
           </mat-select>
         </mat-form-field>
-        <button mat-raised-button color="primary" (click)="search()">Otsi</button>
+        <button mat-raised-button color="primary" (click)="search()" style="height:48px;border-radius:10px">
+          <mat-icon>search</mat-icon> Otsi
+        </button>
       </div>
 
       <div class="card-grid">
         @for (l of listings; track l.id) {
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title>{{ l.title }}</mat-card-title>
-              <mat-card-subtitle>{{ l.pickupCity }} → {{ l.deliveryCity }}</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-              <p>Kuupäev: {{ l.pickupDate }}</p>
-              @if (l.cargoWeightKg) { <p>Kaal: {{ l.cargoWeightKg }} kg</p> }
-              @if (l.budgetEur) { <p>Eelarve: {{ l.budgetEur }} €</p> }
-              @if (l.vehicleTypeRequired) { <p>Sõiduk: {{ l.vehicleTypeRequired }}</p> }
+          <a [routerLink]="['/veod', l.id]" class="listing-card">
+            <div class="listing-route">
+              <span>{{ l.pickupCity }}</span>
+              <span class="route-arrow">→</span>
+              <span>{{ l.deliveryCity }}</span>
+            </div>
+            <div class="listing-title">{{ l.title }}</div>
+            <div class="listing-meta">
+              <div class="meta-item">
+                <mat-icon>calendar_today</mat-icon>
+                {{ l.pickupDate }}
+              </div>
+              @if (l.cargoWeightKg) {
+                <div class="meta-item">
+                  <mat-icon>scale</mat-icon>
+                  {{ l.cargoWeightKg }} kg
+                </div>
+              }
+              @if (l.vehicleTypeRequired) {
+                <div class="meta-item">
+                  <mat-icon>local_shipping</mat-icon>
+                  {{ l.vehicleTypeRequired }}
+                </div>
+              }
+            </div>
+            <div class="listing-footer">
+              @if (l.budgetEur) {
+                <span class="listing-price">{{ l.budgetEur }} €</span>
+              } @else {
+                <span style="color:#64748b;font-size:14px">Hind kokkuleppel</span>
+              }
               <span class="status-chip" [class]="l.status.toLowerCase()">{{ l.status }}</span>
-            </mat-card-content>
-            <mat-card-actions>
-              <a mat-button [routerLink]="['/veod', l.id]" color="primary">Vaata lähemalt</a>
-            </mat-card-actions>
-          </mat-card>
+            </div>
+          </a>
         } @empty {
-          <p style="color:#666">Vedu ei leitud. Proovi teisi filtreid.</p>
+          <div class="empty-state" style="grid-column:1/-1">
+            <mat-icon>search_off</mat-icon>
+            <h3>Ühtegi vedu ei leitud</h3>
+            <p>Proovi muuta otsingufiltreid või postita ise vedu.</p>
+          </div>
         }
       </div>
     </div>
