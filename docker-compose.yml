@@ -7,8 +7,6 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
 
   backend:
     build: ./backend
@@ -25,8 +23,6 @@ services:
       - uploads_data:/uploads
     depends_on:
       - postgres
-    ports:
-      - "8080:8080"
 
   frontend:
     build: ./frontend
