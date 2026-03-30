@@ -15,20 +15,17 @@ import { AuthService } from '../core/services/auth.service';
   template: `
     <div class="auth-wrapper">
       <div class="auth-card">
-        <div style="text-align:center;margin-bottom:24px">
-          <mat-icon style="font-size:48px;width:48px;height:48px;color:var(--primary)">local_shipping</mat-icon>
-        </div>
-        <h1>Tere tulemast tagasi</h1>
-        <p class="subtitle">Logi sisse oma Koormaturg kontole</p>
+        <h1>Logi sisse</h1>
+        <p class="subtitle">Koormaturg — veoste vahendusplatvorm</p>
 
         @if (error) {
           <div class="auth-error">{{ error }}</div>
         }
 
         <mat-form-field appearance="outline">
-          <mat-label>Email</mat-label>
+          <mat-label>E-post</mat-label>
           <mat-icon matPrefix>email</mat-icon>
-          <input matInput [(ngModel)]="email" type="email" placeholder="mati@ettevote.ee">
+          <input matInput [(ngModel)]="email" type="email">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -40,13 +37,13 @@ import { AuthService } from '../core/services/auth.service';
           </button>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" class="auth-btn" (click)="onLogin()" [disabled]="loading">
-          {{ loading ? 'Login...' : 'Logi sisse' }}
+        <button mat-raised-button class="auth-btn" (click)="onLogin()" [disabled]="loading">
+          {{ loading ? 'Laadin...' : 'Logi sisse' }}
         </button>
 
-        <p class="auth-footer">
-          Pole kontot? <a routerLink="/register">Registreeru</a>
-        </p>
+        <div class="auth-footer">
+          <a routerLink="/register">Pole kontot? Registreeri</a>
+        </div>
       </div>
     </div>
   `,

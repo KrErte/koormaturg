@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -11,20 +10,17 @@ import { AuthService } from './core/services/auth.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule, MatDividerModule],
+  imports: [CommonModule, RouterOutlet, RouterLink, MatButtonModule, MatIconModule, MatMenuModule, MatDividerModule],
   template: `
     <nav class="navbar">
       <div class="nav-inner">
-        <a routerLink="/" class="nav-logo">
-          <mat-icon>local_shipping</mat-icon>
-          Koormaturg
-        </a>
+        <a routerLink="/" class="nav-logo">Koormaturg</a>
         <div class="nav-links">
           <a routerLink="/veod" class="nav-link">Veoturg</a>
           @if (auth.isLoggedIn()) {
-            <a routerLink="/veod/uus" class="nav-link nav-cta">Postita vedu</a>
+            <a routerLink="/veod/uus" class="nav-link">Postita vedu</a>
             <button class="nav-avatar" [matMenuTriggerFor]="menu">
-              <mat-icon>account_circle</mat-icon>
+              <mat-icon>person</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
               <a mat-menu-item routerLink="/minu-veod"><mat-icon>list_alt</mat-icon> Minu veod</a>
@@ -38,104 +34,105 @@ import { AuthService } from './core/services/auth.service';
             </mat-menu>
           } @else {
             <a routerLink="/login" class="nav-link">Logi sisse</a>
-            <a routerLink="/register" class="nav-link nav-cta-accent">Registreeru</a>
+            <a routerLink="/register" class="nav-btn">Alusta tasuta</a>
           }
         </div>
       </div>
     </nav>
     <router-outlet />
+    <footer class="footer">
+      <span>Koormaturg</span>
+      <span>&copy; 2026 Koormaturg. Kõik õigused kaitstud.</span>
+    </footer>
   `,
   styles: [`
     .navbar {
-      background: #1e3a5f;
-      padding: 0 20px;
+      background: white;
+      padding: 0 24px;
+      border-bottom: 1px solid #e5e7eb;
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
 
     .nav-inner {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 64px;
+      height: 60px;
     }
 
     .nav-logo {
-      color: white;
+      color: #1a3b6e;
       text-decoration: none;
       font-size: 20px;
       font-weight: 800;
-      display: flex;
-      align-items: center;
-      gap: 8px;
       letter-spacing: -0.5px;
-
-      mat-icon {
-        font-size: 28px;
-        width: 28px;
-        height: 28px;
-      }
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 4px;
     }
 
     .nav-link {
-      color: rgba(255,255,255,0.85);
+      color: #374151;
       text-decoration: none;
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: 8px;
       font-size: 14px;
       font-weight: 500;
-      transition: all 0.15s;
+      transition: background 0.15s;
 
-      &:hover {
-        color: white;
-        background: rgba(255,255,255,0.1);
-      }
+      &:hover { background: #f3f4f6; }
     }
 
-    .nav-cta {
-      background: rgba(255,255,255,0.15) !important;
-      color: white !important;
-      font-weight: 600;
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-
-    .nav-cta-accent {
-      background: #ff6b35 !important;
-      color: white !important;
-      font-weight: 600;
+    .nav-btn {
+      background: #1a3b6e;
+      color: white;
+      text-decoration: none;
+      padding: 8px 20px;
       border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-left: 8px;
+      transition: background 0.15s;
 
-      &:hover {
-        background: #ff8c5e !important;
-      }
+      &:hover { background: #2557a7; }
     }
 
     .nav-avatar {
-      background: rgba(255,255,255,0.15);
-      border: none;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      color: white;
+      color: #374151;
+      margin-left: 8px;
       transition: background 0.15s;
 
-      &:hover { background: rgba(255,255,255,0.25); }
+      &:hover { background: #e5e7eb; }
+      mat-icon { font-size: 20px; width: 20px; height: 20px; }
+    }
 
-      mat-icon { font-size: 24px; width: 24px; height: 24px; }
+    .footer {
+      border-top: 1px solid #e5e7eb;
+      padding: 24px;
+      display: flex;
+      justify-content: space-between;
+      max-width: 1100px;
+      margin: 60px auto 0;
+      font-size: 13px;
+      color: #9ca3af;
+
+      span:first-child { font-weight: 700; color: #1a3b6e; }
     }
   `],
 })

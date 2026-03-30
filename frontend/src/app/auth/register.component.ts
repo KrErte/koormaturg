@@ -15,11 +15,8 @@ import { AuthService } from '../core/services/auth.service';
   template: `
     <div class="auth-wrapper">
       <div class="auth-card">
-        <div style="text-align:center;margin-bottom:24px">
-          <mat-icon style="font-size:48px;width:48px;height:48px;color:var(--primary)">local_shipping</mat-icon>
-        </div>
-        <h1>Loo konto</h1>
-        <p class="subtitle">Alusta veose postitamist või vedajana tegutsemist</p>
+        <h1>Registreeri</h1>
+        <p class="subtitle">Loo konto ja alusta veose postitamist</p>
 
         @if (error) {
           <div class="auth-error">{{ error }}</div>
@@ -28,19 +25,19 @@ import { AuthService } from '../core/services/auth.service';
         <mat-form-field appearance="outline">
           <mat-label>Täisnimi</mat-label>
           <mat-icon matPrefix>person</mat-icon>
-          <input matInput [(ngModel)]="fullName" placeholder="Mati Maasikas">
+          <input matInput [(ngModel)]="fullName">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Email</mat-label>
+          <mat-label>E-post</mat-label>
           <mat-icon matPrefix>email</mat-icon>
-          <input matInput [(ngModel)]="email" type="email" placeholder="mati@ettevote.ee">
+          <input matInput [(ngModel)]="email" type="email">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Telefon</mat-label>
           <mat-icon matPrefix>phone</mat-icon>
-          <input matInput [(ngModel)]="phone" placeholder="+372 5551 2345">
+          <input matInput [(ngModel)]="phone">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -52,13 +49,13 @@ import { AuthService } from '../core/services/auth.service';
           </button>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" class="auth-btn" (click)="onRegister()" [disabled]="loading">
-          {{ loading ? 'Registreerin...' : 'Registreeru' }}
+        <button mat-raised-button class="auth-btn" (click)="onRegister()" [disabled]="loading">
+          {{ loading ? 'Registreerin...' : 'Registreeri' }}
         </button>
 
-        <p class="auth-footer">
-          Juba konto? <a routerLink="/login">Logi sisse</a>
-        </p>
+        <div class="auth-footer">
+          <a routerLink="/login">Juba konto? Logi sisse</a>
+        </div>
       </div>
     </div>
   `,
